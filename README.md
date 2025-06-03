@@ -1,8 +1,12 @@
 #EV Charger App
+
+
 Project Overview
 EV Charger App is a web application that allows users to register and manage their accounts to access electric vehicle charging station services. The backend is built with Node.js, Express, and MongoDB, and the frontend provides a clean, user-friendly interface for registration and login.
 
+
 Features
+
 User registration with name, email, and password
 
 Secure password handling
