@@ -1,79 +1,348 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Dashboard | EV Charger</title>
-  <link rel="stylesheet" href="css/styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | EV Charger Management</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    .action-buttons{
+   color: #CA7842;
+   }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+      background: #FFF2EB;
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      box-shadow: var(--box-shadow);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin: 0.5rem 0;
+    }
+    
+    .stat-label {
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    
+    .btn i {
+      margin-right: 8px;
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--primary-color);
+      color: var(--primary-color);
+    }
+    
+    .btn-outline:hover {
+      background: rgba(67, 97, 238, 0.1);
+    }
+    
+    .btn-danger {
+      background-color: #dc3545;
+    }
+    
+    .btn-danger:hover {
+      background-color: #c82333;
+    }
+    
+    .btn-success {
+      background-color: #28a745;
+    }
+    
+    .btn-success:hover {
+      background-color: #218838;
+    }
+    
+    .filters {
+      background: white;
+      padding: 1.25rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      margin-bottom: 1.5rem;
+    }
+    
+    .filter-group {
+      margin-bottom: 1rem;
+    }
+    
+    .filter-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--text-color);
+    }
+    
+    .table-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .table-actions .btn {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.875rem;
+    }
+    
+    .form-card {
+      background: #FFF2EB;
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      box-shadow: var(--box-shadow);
+      margin-bottom: 2rem;
+    }
+    
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      margin-top: 1.5rem;
+    }
+    
+    @media (max-width: 768px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .form-actions {
+        flex-direction: column;
+      }
+      
+      .form-actions .btn {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h2>Chargers Dashboard</h2>
+  <header>
+    <div class="header-container">
+      <a href="dashboard.html" class="logo">EV Charger</a>
+      <nav>
+        <button id="logout-btn" class="btn btn-outline">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </nav>
+    </div>
+  </header>
 
-  <button id="logout-btn">Logout</button>
+  <main class="main-container">
+    <div class="dashboard-header">
+      <h1>Chargers Dashboard</h1>
+      <div class="action-buttons">
+        <button onclick="window.location.href='map.html'" class="btn btn-primary">
+          <i class="fas fa-map-marked-alt"></i> View Map
+        </button>
+      </div>
+    </div>
 
-  <h3>Filters</h3>
-  <label>Status:
-    <select id="filter-status">
-      <option value="">All</option>
-      <option value="Active">Active</option>
-      <option value="Inactive">Inactive</option>
-    </select>
-  </label>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="total-chargers">0</div>
+        <div class="stat-label">Total Chargers</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="active-chargers">0</div>
+        <div class="stat-label">Active</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="inactive-chargers">0</div>
+        <div class="stat-label">Inactive</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="avg-power">0</div>
+        <div class="stat-label">Avg. Power (kW)</div>
+      </div>
+    </div>
 
-  <label>Power Output (kW):
-    <input type="number" id="filter-power" placeholder="Min Power" min="0" />
-  </label>
+    <div class="filters">
+      <h3>Filters</h3>
+      <div class="filters-grid">
+        <div class="filter-group">
+          <label for="filter-status">Status</label>
+          <select id="filter-status" class="form-control">
+            <option value="">All Status</option>
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="filter-power">Min Power (kW)</label>
+          <input type="number" id="filter-power" class="form-control" placeholder="Any" min="0">
+        </div>
+        <div class="filter-group">
+          <label for="filter-connector">Connector Type</label>
+          <input type="text" id="filter-connector" class="form-control" placeholder="Any">
+        </div>
+        <div class="filter-group" style="align-self: flex-end;">
+          <button id="apply-filters" class="btn btn-primary">
+            <i class="fas fa-filter"></i> Apply Filters
+        </div>
+      </div>
+    </div>
 
-  <label>Connector Type:
-    <input type="text" id="filter-connector" placeholder="Connector Type" />
-  </label>
+    <div class="form-card" id="charger-form-container" style="display: none;">
+      <h3 id="form-title">Add New Charger</h3>
+      <form id="charger-form">
+        <input type="hidden" id="charger-id">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="name">Charger Name</label>
+            <input type="text" id="name" class="form-control" placeholder="e.g., Fast Charger #1" required>
+          </div>
+          <div class="form-group">
+            <label for="status">Status</label>
+            <select id="status" class="form-control" required>
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="latitude">Latitude</label>
+            <input type="number" id="latitude" class="form-control" step="0.000001" placeholder="e.g., 28.6139" required>
+          </div>
+          <div class="form-group">
+            <label for="longitude">Longitude</label>
+            <input type="number" id="longitude" class="form-control" step="0.000001" placeholder="e.g., 77.2090" required>
+          </div>
+          <div class="form-group">
+            <label for="powerOutput">Power Output (kW)</label>
+            <input type="number" id="powerOutput" class="form-control" placeholder="e.g., 50" min="0" step="0.1" required>
+          </div>
+          <div class="form-group">
+            <label for="connectorType">Connector Type</label>
+            <select id="connectorType" class="form-control" required>
+              <option value="CCS">CCS (Combo)\n              <option value="CHAdeMO">CHAdeMO</option>\n              <option value="Type 2">Type 2 (Mennekes)</option>\n              <option value="GB/T">GB/T</option>\n              <option value="Tesla">Tesla</option>\n              <option value="Other">Other</option>\n            </select>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="button" id="cancel-edit" class="btn btn-outline">
+            <i class="fas fa-times"></i> Cancel
+          </button>
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i> Save Charger
+          </button>
+        </div>
+      </form>
+    </div>
 
-  <button id="apply-filters">Apply Filters</button>
+    <div class="card">
+      <div class="dashboard-header" style="margin-bottom: 1rem;">
+        <h2>Chargers</h2>
+        <button id="add-charger-btn" class="btn btn-success">
+          <i class="fas fa-plus"></i> Add Charger
+        </button>
+      </div>
+      
+      <div class="table-responsive">
+        <table id="chargers-table" class="data-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Location</th>
+              <th>Status</th>
+              <th>Power (kW)</th>
+              <th>Connector</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="chargers-tbody">
+          
+            <tr>
+              <td colspan="6" class="text-center">Loading chargers...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="table-footer" style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+        <div class="table-info" id="table-info">
+          Showing <span id="showing-count">0</span> of <span id="total-count">0</span> chargers
+        </div>
+        <div class="pagination" id="pagination">
+          
+        </div>
+      </div>
+    </div>
+  </main>
 
-  <h3>Chargers List</h3>
-  <table border="1" id="chargers-table">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Latitude</th>
-        <th>Longitude</th>
-        <th>Status</th>
-        <th>Power (kW)</th>
-        <th>Connector Type</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-
-  <h3>Add / Edit Charger</h3>
-  <form id="charger-form">
-    <input type="hidden" id="charger-id" />
-    <input type="text" id="name" placeholder="Name" required />
-    <input type="number" id="latitude" step="any" placeholder="Latitude" required />
-    <input type="number" id="longitude" step="any" placeholder="Longitude" required />
-    <select id="status" required>
-      <option value="Active">Active</option>
-      <option value="Inactive">Inactive</option>
-    </select>
-    <input type="number" id="powerOutput" placeholder="Power Output (kW)" required />
-    <input type="text" id="connectorType" placeholder="Connector Type" required />
-    <button type="submit">Save Charger</button>
-    <button type="button" id="cancel-edit">Cancel</button>
-  </form>
-  <button onclick="window.location.href='map.html'" style="
-  margin-top: 2rem;
-  padding: 0.7rem 1.2rem;
-  font-size: 1rem;
-  background-color: #2a5d84;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-">
-  View Charger Map
-</button>
-
-
-  <script src="js/dashboard.js"></script>
+  <script src="dashboard.js"></script>
+  <script>
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      
+      const addChargerBtn = document.getElementById('add-charger-btn');
+      const chargerFormContainer = document.getElementById('charger-form-container');
+      const cancelEditBtn = document.getElementById('cancel-edit');
+      
+      if (addChargerBtn && chargerFormContainer) {
+        addChargerBtn.addEventListener('click', function() {
+         
+          document.getElementById('charger-form').reset();
+          document.getElementById('form-title').textContent = 'Add New Charger';
+          chargerFormContainer.style.display = 'block';
+          
+         
+          chargerFormContainer.scrollIntoView({ behavior: 'smooth' });
+        });
+      }
+      
+      if (cancelEditBtn && chargerFormContainer) {
+        cancelEditBtn.addEventListener('click', function() {
+          chargerFormContainer.style.display = 'none';
+        });
+      }
+      
+      
+      const filtersGrid = document.querySelector('.filters-grid');
+      if (filtersGrid) {
+        
+        function updateFiltersGrid() {
+          if (window.innerWidth >= 992) {
+            filtersGrid.style.display = 'grid';
+            filtersGrid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(200px, 1fr))';
+            filtersGrid.style.gap = '1rem';
+            filtersGrid.style.alignItems = 'end';
+          } else {
+            filtersGrid.style.display = 'block';
+          }
+        }
+        
+        updateFiltersGrid();
+        window.addEventListener('resize', updateFiltersGrid);
+      }
+    });
+  </script>
 </body>
 </html>

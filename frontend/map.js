@@ -20,7 +20,7 @@ async function initMap() {
 
 async function loadChargersOnMap() {
   try {
-    const res = await fetch('http://localhost:5000/api/chargers', {
+    const res = await fetch('https://chargingstation-8nhx.onrender.com/api/chargers', {
       headers: {
         Authorization: `Bearer ${token}`
       }
