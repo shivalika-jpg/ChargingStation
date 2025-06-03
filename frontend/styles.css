@@ -1,0 +1,57 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 2rem;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  background: #FFF2EB;
+}
+
+h2, h3 {
+  color: #CA7842;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+  background: #FFF2EB;
+}
+
+th, td {
+  padding: 8px 12px;
+  border: 1px solid #FFF2EB;
+}
+
+th {
+  background-color: #CA7842;
+  color: white;
+}
+
+button {
+  margin: 0 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+input, select {
+  margin: 0.3rem 0.5rem 1rem 0;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+form > * {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+#map {
+  width: 100%;
+  height: 500px;  /* or any height you want */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 2rem;
+}
+.action-buttons{
+ color: #CA7842;
+}

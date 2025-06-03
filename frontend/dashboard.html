@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard | EV Charger</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <h2>Chargers Dashboard</h2>
+
+  <button id="logout-btn">Logout</button>
+
+  <h3>Filters</h3>
+  <label>Status:
+    <select id="filter-status">
+      <option value="">All</option>
+      <option value="Active">Active</option>
+      <option value="Inactive">Inactive</option>
+    </select>
+  </label>
+
+  <label>Power Output (kW):
+    <input type="number" id="filter-power" placeholder="Min Power" min="0" />
+  </label>
+
+  <label>Connector Type:
+    <input type="text" id="filter-connector" placeholder="Connector Type" />
+  </label>
+
+  <button id="apply-filters">Apply Filters</button>
+
+  <h3>Chargers List</h3>
+  <table border="1" id="chargers-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+        <th>Status</th>
+        <th>Power (kW)</th>
+        <th>Connector Type</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <h3>Add / Edit Charger</h3>
+  <form id="charger-form">
+    <input type="hidden" id="charger-id" />
+    <input type="text" id="name" placeholder="Name" required />
+    <input type="number" id="latitude" step="any" placeholder="Latitude" required />
+    <input type="number" id="longitude" step="any" placeholder="Longitude" required />
+    <select id="status" required>
+      <option value="Active">Active</option>
+      <option value="Inactive">Inactive</option>
+    </select>
+    <input type="number" id="powerOutput" placeholder="Power Output (kW)" required />
+    <input type="text" id="connectorType" placeholder="Connector Type" required />
+    <button type="submit">Save Charger</button>
+    <button type="button" id="cancel-edit">Cancel</button>
+  </form>
+  <button onclick="window.location.href='map.html'" style="
+  margin-top: 2rem;
+  padding: 0.7rem 1.2rem;
+  font-size: 1rem;
+  background-color: #2a5d84;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+">
+  View Charger Map
+</button>
+
+
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
