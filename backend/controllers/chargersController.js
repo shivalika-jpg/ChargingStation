@@ -1,4 +1,4 @@
-const Charger = require('../backend/models/Charger');
+const Charger = require('../models/Charger');
 
 exports.createCharger = async (req, res) => {
   try {

@@ -78,10 +78,8 @@
   messageEl.textContent = 'Login successful!';
   console.log('Token:', data.token);
 
-  // ✅ Save token to localStorage
   localStorage.setItem('token', data.token);
 
-  // Redirect to dashboard
   setTimeout(() => {
     window.location.href = 'dashboard.html';
   }, 2000);

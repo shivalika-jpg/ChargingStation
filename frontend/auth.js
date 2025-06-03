@@ -15,7 +15,6 @@ form.addEventListener('submit', async (e) => {
 
     const data = await res.json();
     if (res.ok) {
-      // Save token and redirect to dashboard
       localStorage.setItem('token', data.token);
       window.location.href = 'dashboard.html';
     } else {

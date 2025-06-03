@@ -10,7 +10,6 @@ let map;
 let markers = [];
 
 async function initMap() {
-  // Initialize map centered on India
   map = new google.maps.Map(document.getElementById("map"), {
     zoom: 5,
     center: { lat: 20.5937, lng: 78.9629 },
@@ -36,7 +35,7 @@ async function loadChargersOnMap() {
 
     const chargers = await res.json();
 
-    // Clear old markers
+ 
     markers.forEach(marker => marker.setMap(null));
     markers = [];
 
