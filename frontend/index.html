@@ -53,6 +53,20 @@
       text-align: center;
       color: red;
     }
+    .login-link {
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #CA7842;
+    }
+    .login-link a {
+      color: #CA7842;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .login-link a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -70,6 +84,10 @@
     <button type="submit">Register</button>
   </form>
   <div class="message" id="message"></div>
+
+  <div class="login-link">
+    Already have an account? <a href="login.html">Login</a>
+  </div>
 
   <script>
     const form = document.getElementById('registerForm');
@@ -95,9 +113,9 @@
           messageEl.style.color = 'green';
           messageEl.textContent = 'Registration successful! You can now log in.';
           form.reset();
-                setTimeout(() => {
+          setTimeout(() => {
             window.location.href = 'login.html';  
-        }, 2000);
+          }, 2000);
 
         } else {
           messageEl.style.color = 'red';

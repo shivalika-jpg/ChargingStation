@@ -44,7 +44,7 @@ chargerForm.addEventListener('submit', async (e) => {
   try {
     let res;
     if (id) {
-      res = await fetch(`https://chargingstation-8nhx.onrender.com/api/chargers/${id}`, {
+      res = await fetch(`http://localhost:5000/api/chargers/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ chargerForm.addEventListener('submit', async (e) => {
         body: JSON.stringify(chargerData),
       });
     } else {
-      res = await fetch('https://chargingstation-8nhx.onrender.com/api/chargers', {
+      res = await fetch('http://localhost:5000/api/chargers', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ chargerForm.addEventListener('submit', async (e) => {
 
 async function fetchChargers() {
   try {
-    const res = await fetch('https://chargingstation-8nhx.onrender.com/api/chargers', {
+    const res = await fetch('http://localhost:5000/api/chargers', {
       headers: { Authorization: `Bearer ${token}` },
     });
     chargers = await res.json();
@@ -123,7 +123,7 @@ window.editCharger = function(id) {
 window.deleteCharger = async function(id) {
   if (!confirm('Are you sure you want to delete this charger?')) return;
   try {
-    const res = await fetch(`https://chargingstation-8nhx.onrender.com/api/chargers/${id}`, {
+    const res = await fetch(`http://localhost:5000/api/chargers/${id}`, {
       method: 'DELETE',
       headers: { Authorization: `Bearer ${token}` },
     });
